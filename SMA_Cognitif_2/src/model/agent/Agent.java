@@ -10,7 +10,7 @@ import model.message.Action;
 import model.message.Message;
 import model.message.MessageContent;
 import model.message.Performatif;
-import model.message.information.InformationFrom;
+import model.message.information.InformationEmpty;
 
 import java.util.Random;
 import java.util.stream.Stream;
@@ -171,7 +171,7 @@ public class Agent extends Thread
                     switch(mc.getAction())
                     {
                         case Move:
-                            InformationFrom f = mc.getInformation();
+                            InformationEmpty f = mc.getInformation();
 
                             if(currentCase.getLocation().equals(f.getLocation()))
                             { // Move
@@ -199,7 +199,7 @@ public class Agent extends Thread
                                             new MessageContent(
                                                     Action.Move,
                                                     Performatif.Request,
-                                                    new InformationFrom(c.getLocation())));
+                                                    new InformationEmpty(c.getLocation())));
                                 }
                             }
                             break;
@@ -218,7 +218,7 @@ public class Agent extends Thread
                             new MessageContent(
                                     Action.Move,
                                     Performatif.Request,
-                                    new InformationFrom(futureCase.getLocation())));
+                                    new InformationEmpty(futureCase.getLocation())));
                 }
                 else
                 {

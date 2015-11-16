@@ -6,5 +6,8 @@ package model.message;
  */
 public enum Action
 {
-    Move;
+    Call,
+    Offer,
+    Reject,
+    Accept;
 }

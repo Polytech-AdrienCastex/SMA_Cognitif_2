@@ -4,13 +4,13 @@ package model.agent;
  *
  * @author p1002239
  */
-public class AgentSupplier implements IAgent
+public class AgentSupplier extends AgentAbstract
 {
     public Builder create()
     {
         return new Builder();
     }
-    public static class Builder extends IAgentBuilder<AgentSupplier>
+    public static class Builder extends AgentBuilder<AgentSupplier, Builder>
     {
         public Builder()
         { }
@@ -27,5 +27,9 @@ public class AgentSupplier implements IAgent
         
     }
     
-    
+    @Override
+    public void run()
+    {
+        
+    }
 }

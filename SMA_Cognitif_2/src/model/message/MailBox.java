@@ -4,17 +4,18 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Observable;
+import model.agent.AgentAbstract;
 
-public class MailBox extends Observable
+public class MailBox<T extends AgentAbstract> extends Observable
 {
     public MailBox()
     {
         this.mails = new HashMap<>();
     }
     
-    private final Map<Agent, LinkedList<Message>> mails;
+    private final Map<T, LinkedList<Message>> mails;
     
-    public static class Notification
+    public static class Notification<T extends AgentAbstract>
     {
         public enum Action
         {
@@ -22,22 +23,22 @@ public class MailBox extends Observable
             Add
         }
         
-        public Notification(Message msg, Action action)
+        public Notification(Message<T> msg, Action action)
         {
             this.msg = msg;
             this.action = action;
         }
         
-        public final Message msg;
+        public final Message<T> msg;
         public final Action action;
     }
     
-    public boolean hasPendingMessage(Agent agent)
+    public boolean hasPendingMessage(T agent)
     {
         return !getList(agent).isEmpty();
     }
     
-    public Message getPendingMessage(Agent agent)
+    public Message getPendingMessage(T agent)
     {
         Message msg = getList(agent).poll();
         
@@ -47,7 +48,7 @@ public class MailBox extends Observable
         return msg;
     }
     
-    public boolean putPendingMessage(Agent from, Agent to, MessageContent messageContent)
+    public boolean putPendingMessage(T from, T to, MessageContent messageContent)
     {
         if(to == null)
             return false;
@@ -63,7 +64,7 @@ public class MailBox extends Observable
             return false;
     }
     
-    protected synchronized LinkedList<Message> getList(Agent agent)
+    protected synchronized LinkedList<Message> getList(T agent)
     {
         if(!mails.containsKey(agent))
             mails.put(agent, new LinkedList<>());

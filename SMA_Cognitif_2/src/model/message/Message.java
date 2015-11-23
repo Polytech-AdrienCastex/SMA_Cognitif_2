@@ -1,14 +1,15 @@
 package model.message;
 
 import java.math.BigInteger;
+import model.agent.AgentAbstract;
 
 /**
  *
  * @author p1002239
  */
-public class Message
+public class Message<T extends AgentAbstract>
 {
-    protected Message(Agent from, Agent to, MessageContent content)
+    protected Message(T from, T to, MessageContent content)
     {
         this.from = from;
         this.to = to;
@@ -17,8 +18,8 @@ public class Message
         this.uid = getUID();
     }
     
-    private final Agent from;
-    private final Agent to;
+    private final T from;
+    private final T to;
     private final MessageContent content;
     private final BigInteger uid;
     
@@ -34,12 +35,12 @@ public class Message
         return uid;
     }
     
-    public Agent getFrom()
+    public T getFrom()
     {
         return from;
     }
     
-    public Agent getTo()
+    public T getTo()
     {
         return to;
     }

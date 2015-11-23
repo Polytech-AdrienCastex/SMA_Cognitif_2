@@ -6,13 +6,13 @@ package model.message.information;
  */
 public class InformationOffer implements Information
 {
-    public InformationOffer(int price)
+    public InformationOffer(double price)
     {
         this.price = price;
     }
     
-    private final int price;
-    public int getPrice()
+    private final double price;
+    public double getPrice()
     {
         return price;
     }

@@ -1,5 +1,9 @@
 package model.agent;
 
+import java.util.Map;
+import model.message.Message;
+import model.message.information.InformationOffer;
+
 /**
  *
  * @author p1002239
@@ -36,18 +40,31 @@ public class AgentSupplier extends AgentAbstract
     
     protected boolean acceptOffer(double offer)
     {
-        
+        return offer > this.priceObjective;
+    }
+    protected boolean rejectOffer(double offer)
+    {
+        return offer < this.priceObjective - this.range;
     }
     
     protected double getNextOffer(double offer, double oldOffer)
     {
-        if(offer > this.priceObjective)
-            return -1;
+        return (oldOffer - this.priceObjective - this.range) * slope + this.priceObjective - this.range;
+    }
+    
+    private Map<AgentAbstract, Integer> com;
+    
+    protected void computeNego(Message msg)
+    {
+        InformationOffer offer = msg.getContent().getInformation();
         
-        if(offer > this.priceObjective - this.range)
-            return (this.priceObjective - oldOffer) * slope + oldOffer;
+        com.put(msg.getFrom(), com.get(msg.getFrom() + 1);
         
-        return -2;
+        if(acceptOffer(offer.getPrice()))
+        {
+            
+        }
+        else if()
     }
     
     @Override

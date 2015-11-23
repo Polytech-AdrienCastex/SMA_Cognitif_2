@@ -1,6 +1,5 @@
 package controller;
 
-import model.agent.Agent;
 import model.agent.AgentFactory;
 import model.environment.AgentSystem;
 import model.environment.Grid;

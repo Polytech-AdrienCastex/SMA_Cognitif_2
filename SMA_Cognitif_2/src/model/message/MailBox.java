@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Observable;
-import model.agent.Agent;
 
 public class MailBox extends Observable
 {

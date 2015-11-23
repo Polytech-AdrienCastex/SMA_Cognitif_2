@@ -3,7 +3,6 @@ package view;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
-import model.agent.Agent;
 
 public class AgentManager
 {

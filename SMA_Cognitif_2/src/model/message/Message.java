@@ -1,7 +1,6 @@
 package model.message;
 
 import java.math.BigInteger;
-import model.agent.Agent;
 
 /**
  *

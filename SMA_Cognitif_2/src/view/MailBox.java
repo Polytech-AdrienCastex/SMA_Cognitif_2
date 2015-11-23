@@ -8,10 +8,9 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.stream.Stream;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import model.agent.Agent;
+
 import model.message.MailBox.Notification;
 
 public class MailBox extends JPanel implements Observer

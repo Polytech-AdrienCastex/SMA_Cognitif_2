@@ -18,13 +18,36 @@ public class AgentSupplier extends AgentAbstract
         @Override
         public AgentSupplier build()
         {
-            return new AgentSupplier();
+            return new AgentSupplier(
+                    priceObjective,
+                    range,
+                    slope
+            );
         }
     }
     
-    public AgentSupplier()
+    public AgentSupplier(
+            int priceObjective,
+            int range,
+            double slope)
+    {
+        super(priceObjective, range, slope);
+    }
+    
+    protected boolean acceptOffer(double offer)
     {
         
+    }
+    
+    protected double getNextOffer(double offer, double oldOffer)
+    {
+        if(offer > this.priceObjective)
+            return -1;
+        
+        if(offer > this.priceObjective - this.range)
+            return (this.priceObjective - oldOffer) * slope + oldOffer;
+        
+        return -2;
     }
     
     @Override

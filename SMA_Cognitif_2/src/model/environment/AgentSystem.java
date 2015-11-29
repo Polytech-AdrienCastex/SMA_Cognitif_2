@@ -7,9 +7,20 @@ import model.message.MailBox;
 
 public class AgentSystem
 {
-    public AgentSystem()
+    public AgentSystem(
+            Collection<AgentNegociator> negociators,
+            Collection<AgentSupplier> suppliers,
+            MailBox mailBox)
     {
+        this.negociators = negociators;
+        this.suppliers = suppliers;
+        this.mailBox = mailBox;
         
+        negociators.stream()
+                .forEach(a -> a.setAgentSystem(this));
+        
+        suppliers.stream()
+                .forEach(a -> a.setAgentSystem(this));
     }
     
     protected final Collection<AgentSupplier> suppliers;
@@ -28,5 +39,16 @@ public class AgentSystem
     public MailBox getMailBox()
     {
         return mailBox;
+    }
+
+    public void startAgents()
+    {
+        suppliers.stream()
+                .map(Thread::new)
+                .forEach(Thread::start);
+        
+        negociators.stream()
+                .map(Thread::new)
+                .forEach(Thread::start);
     }
 }

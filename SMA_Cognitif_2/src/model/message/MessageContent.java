@@ -2,10 +2,6 @@ package model.message;
 
 import model.message.information.Information;
 
-/**
- *
- * @author p1002239
- */
 public class MessageContent
 {
     public MessageContent(Action action, Performatif performatif, Information information)

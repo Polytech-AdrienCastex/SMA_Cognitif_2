@@ -1,49 +1,36 @@
 package model.agent;
 
-import model.agent.pathfinding.AStar;
-import model.agent.pathfinding.PathFinding;
-import model.environment.Grid;
-import model.general.Vector2D;
-import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-/**
- *
- * @author Adrien
- */
 public class AgentFactory
 {
     private AgentFactory()
     { }
     
-    public static Collection<Agent.Builder> createAgents(Grid grid, Vector2D[] locations)
+    protected static Stream<AgentBuilder> createAgents(int[] values, Supplier<AgentBuilder> supplier)
     {
-        PathFinding path = new AStar();
-        return Stream.of(locations)
-                .map(grid::getCase)
-                .map(c ->
-                {
-                    return Agent.create()
-                            .setDestination(c);
-                })
-                .peek(a -> a.setPathFinder(path))
-                .collect(Collectors.toList());
-    }
-    public static Collection<Agent.Builder> createAgents(Grid grid, Integer[] locations)
-    {
-        PathFinding path = new AStar();
-        return IntStream.range(0, (int)(locations.length / 2))
+        return IntStream.range(0, (int)(values.length / 2))
                 .map(i -> i*2)
-                .mapToObj(i -> new Vector2D(locations[i], locations[i + 1]))
-                .map(grid::getCase)
-                .map(c ->
-                {
-                    return Agent.create()
-                            .setDestination(c);
-                })
-                .peek(a -> a.setPathFinder(path))
-                .collect(Collectors.toList());
+                .mapToObj(i -> supplier.get()
+                        .setPriceObjective(values[i])
+                        .setRange(values[i + 1] - values[i])
+                        .setInitialOffer(values[i]))
+                .peek(b -> b.setVerbose(true))
+                .peek(b -> b.setMaxNbTry(20))
+                .peek(b -> b.setMinNbTry(10))
+                .peek(b -> b.setSlope(0.2));
+    }
+    
+    public static Stream<AgentNegociator.Builder> createAgentNegociators(int[] values)
+    {
+        return createAgents(values, () -> AgentNegociator.create())
+                .map(AgentNegociator.Builder.class::cast);
+    }
+    public static Stream<AgentSupplier.Builder> createAgentSuppliers(int[] values)
+    {
+        return createAgents(values, () -> AgentSupplier.create())
+                .map(AgentSupplier.Builder.class::cast);
     }
 }

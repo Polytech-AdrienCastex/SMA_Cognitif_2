@@ -3,10 +3,6 @@ package model.message;
 import java.math.BigInteger;
 import model.agent.AgentAbstract;
 
-/**
- *
- * @author p1002239
- */
 public class Message<T extends AgentAbstract>
 {
     protected Message(T from, T to, MessageContent content)

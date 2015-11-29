@@ -1,45 +1,38 @@
 package controller;
 
+import java.util.stream.Collectors;
+import model.agent.AgentBuilder;
 import model.agent.AgentFactory;
 import model.environment.AgentSystem;
-import model.environment.Grid;
-import model.general.Vector2D;
-import view.MainFrame;
+import model.message.MailBox;
 
-/**
- *
- * @author p1002239
- */
 public class EntryPoint
 {
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args)
     {
         // Cours : liris.cnrs.fr/~saknine/SMA
         // Mot de passe : akines2015
         
-        AgentSystem as = AgentSystem.create()
-                .setGrid(new Grid(5))
-                .addAgents(g -> AgentFactory.createAgents(g, new Integer[]
+        AgentSystem as = new AgentSystem(
+                AgentFactory.createAgentNegociators(new int[]
                 {
-                    0, 0,
-                    0, 1,
-                    0, 2,
-                    0, 3,
-                    1, 0,
-                    1, 1,
-                    1, 2,
-                    2, 0,
-                    2, 1,
-                    2, 2,
-                }))
-                .build()
-                .dispatchAgents();
-                //.startAgents();
+                    150, 300,
+                    250, 500,
+                    150, 300
+                })
+                .map(AgentBuilder::build)
+                .collect(Collectors.toList()),
+                AgentFactory.createAgentSuppliers(new int[]
+                {
+                    250, 500,
+                    250, 500
+                })
+                .map(AgentBuilder::build)
+                .collect(Collectors.toList()),
+                new MailBox());
         
-        new MainFrame(as).setVisible(true);
+        as.startAgents();
+        
+        //new MainFrame(as).setVisible(true);
     }
 }

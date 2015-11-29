@@ -1,31 +1,27 @@
 package model.agent;
 
-import java.util.Map;
 import model.message.Message;
-import model.message.information.InformationOffer;
 
-/**
- *
- * @author p1002239
- */
 public class AgentSupplier extends AgentAbstract
 {
-    public Builder create()
+    public static Builder create()
     {
         return new Builder();
     }
     public static class Builder extends AgentBuilder<AgentSupplier, Builder>
     {
-        public Builder()
-        { }
-        
         @Override
         public AgentSupplier build()
         {
+            check();
             return new AgentSupplier(
                     priceObjective,
                     range,
-                    slope
+                    slope,
+                    initialOffer,
+                    maxNbTry,
+                    minNbTry,
+                    isVerbose
             );
         }
     }
@@ -33,43 +29,44 @@ public class AgentSupplier extends AgentAbstract
     public AgentSupplier(
             int priceObjective,
             int range,
-            double slope)
+            double slope,
+            double initialOffer,
+            int maxNbTry,
+            int minNbTry,
+            boolean isVerbose)
     {
-        super(priceObjective, range, slope);
+        super(priceObjective, range, slope, initialOffer, maxNbTry, minNbTry, isVerbose);
+        
+        
     }
     
+    @Override
     protected boolean acceptOffer(double offer)
     {
         return offer > this.priceObjective;
     }
+    @Override
     protected boolean rejectOffer(double offer)
     {
         return offer < this.priceObjective - this.range;
     }
     
+    @Override
     protected double getNextOffer(double offer, double oldOffer)
     {
-        return (oldOffer - this.priceObjective - this.range) * slope + this.priceObjective - this.range;
-    }
-    
-    private Map<AgentAbstract, Integer> com;
-    
-    protected void computeNego(Message msg)
-    {
-        InformationOffer offer = msg.getContent().getInformation();
-        
-        com.put(msg.getFrom(), com.get(msg.getFrom() + 1);
-        
-        if(acceptOffer(offer.getPrice()))
-        {
-            
-        }
-        else if()
+        return (oldOffer - this.priceObjective + this.range) * getSlope() + oldOffer;
     }
     
     @Override
-    public void run()
+    protected boolean isSatisfied()
     {
-        
+        return false;
+    }
+    
+    @Override
+    protected void computeCall(Message msg)
+    {
+        AgentAbstract client = msg.getFrom();
+        as.getMailBox().putPendingMessage(this, client, generateMessageOffer(msg));
     }
 }
